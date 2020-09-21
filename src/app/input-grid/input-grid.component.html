@@ -1,0 +1,22 @@
+<div class="grid-wrapper">
+    <div class="full-grid">
+        <div class="grid-row" *ngFor="let i of numRange">
+            <div class="grid-cell" 
+                (click)="onClick(i, j);" 
+                *ngFor="let j of numRange"
+                [style.border-bottom]=" (i == 2 || i == 5) ?  '2px solid black' : '0.5px solid black' "
+                [style.border-right]=" (j == 2 || j == 5) ?  '2px solid black' : '0.5px solid black' "
+                [ngClass]="(selectedI == i && selectedJ == j) ? 'selected' : '' "> 
+                {{stringBoard[i][j]}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="horizontal-line"></div>
+
+<div class="button-group">
+    <button (click)="onClear()">Clear board</button>
+    <button (click)="onSolve()">Solve board</button>
+    <button (click)="onCheck()">Check board</button>
+</div>
