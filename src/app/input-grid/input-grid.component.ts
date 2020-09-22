@@ -193,6 +193,24 @@ export class InputGridComponent implements OnInit {
         }
     }
 
+    onCheck(): void {
+        
+        let msg = "";
+        this.is_possible(this.dataBoard) ? msg +="POSSIBLE " : msg += "IMPOSSIBLE ";
+        this.is_legal(this.dataBoard) ? msg += "LEGAL" : msg += "ILLEGAL";
+        alert(msg);
+    }
+
+    onGenerate(): void {
+        for (let i of this.numRange) {
+            for (let j of this.numRange) {
+                this.dataBoard[i][j] = 0;
+            }
+        }
+        this.dataBoard = this.seed_random(this.dataBoard, 20);
+        this.dataGridToStringGrid();
+    }
+
     square_coordinates = [
         [1, 1, 1, 2, 2, 2, 3, 3, 3],
         [1, 1, 1, 2, 2, 2, 3, 3, 3],
@@ -244,6 +262,69 @@ export class InputGridComponent implements OnInit {
             board[r][c] = possibilities
             return false
         }
+    }
+
+    is_possible(orig_board) {
+        let board = JSON.parse(JSON.stringify(orig_board));
+
+        for(let r = 0; r < 9; r++){
+            for(let c = 0; c < 9; c++){
+                this.complete_cell(board, r, c);
+                if(board[r][c].length === 0){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    seed_random(orig_board, numSeededPositions){
+        let board = JSON.parse(JSON.stringify(orig_board));
+        let count = 0;
+
+        while(count < numSeededPositions){
+            let randRow = Math.floor(Math.random() * 9);
+            let randCol = Math.floor(Math.random() * 9);
+            if(board[randRow][randCol] === 0){
+                board[randRow][randCol] = Math.floor(Math.random() * 9) + 1;
+                if(this.is_legal(board) && this.is_possible(board)){
+                    count++;
+                }
+                else{
+                    board[randRow][randCol] = 0;
+                }
+            }
+        }
+        return board;
+    }
+
+    is_legal(orig_board) {
+        let legal = true
+        // Check all rows
+        for (let r = 0; r < 9 && legal == true; r++) {
+            let row  = this.get_row(orig_board, r);
+            let trimmedRow = row.filter(cell => cell !== 0);
+            if (new Set(trimmedRow).size !== trimmedRow.length) {
+                legal = false;
+            }
+        }
+        // Check all columns
+        for (let c = 0; c < 9 && legal == true; c++) {
+            let col  = this.get_column(orig_board, c);
+            let trimmedCol = col.filter(cell => cell !== 0);
+            if (new Set(trimmedCol).size !== trimmedCol.length) {
+                legal = false;
+            }
+        }
+        // Check all square sections
+        for (let q = 1; q < 9 && legal == true; q++) {
+            let square  = this.get_square(orig_board, q);
+            let trimmedRow = square.filter(cell => cell !== 0);
+            if (new Set(trimmedRow).size !== trimmedRow.length) {
+                legal = false;
+            }
+        }
+        return legal
     }
 
     appears_once_only(board, possibilities, segment, r, c) {
@@ -378,23 +459,5 @@ export class InputGridComponent implements OnInit {
         }
 
         return board
-    }
-
-    print_board(gameArr) {
-        let row = "";
-        let grid = "";
-        for (let i = 0; i < 9; i++) {
-            row = "";
-            this.get_row(gameArr, i).forEach(cell => {
-                row += cell + " ";
-            });
-            row += "\n";
-            grid += row;
-        }
-        console.log(grid)
-    }
-
-    onCheck() {
-        this.print_board(this.dataBoard);
     }
 }
