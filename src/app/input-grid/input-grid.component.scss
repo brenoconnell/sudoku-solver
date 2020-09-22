@@ -1,11 +1,18 @@
-$box-size: 40px;
+$box-size: 30px;
 $grid-border-light: 0.4px;
 $grid-border-heavy: 2px;
 
+.page-wrapper{
+    height: 90%;
+    width: 90%;
+    margin: 5%;
+}
+
 .grid-wrapper{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: 100%;
 
     .full-grid{
@@ -45,8 +52,9 @@ $grid-border-heavy: 2px;
 
 .num-select-wrapper{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: 100%;
 
     .num-select{
@@ -56,6 +64,10 @@ $grid-border-heavy: 2px;
         cursor: pointer;
     
         .num-cell{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
             height: $box-size;
             width: $box-size;
             border: $grid-border-light solid black;
@@ -66,6 +78,17 @@ $grid-border-heavy: 2px;
             background-color: blueviolet;
         }
     }
+    .del-cell{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        height: $box-size;
+        border: $grid-border-light solid black;
+        background-color: aquamarine;
+        margin-top: 15px;
+        padding: 0 10px;
+    }
 }
 
 .button-group{
@@ -75,7 +98,7 @@ $grid-border-heavy: 2px;
     align-items: center;
     width: 100%;
     button{
-        height: 30px;
+        margin: 0 10px;
         font-size: 22px;
         font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
         background-color: blueviolet;

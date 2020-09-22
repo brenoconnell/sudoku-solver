@@ -1,22 +1,45 @@
-<div class="grid-wrapper">
-    <div class="full-grid">
-        <div class="grid-row" *ngFor="let i of numRange">
-            <div class="grid-cell" 
-                (click)="onClick(i, j);" 
-                *ngFor="let j of numRange"
-                [style.border-bottom]=" (i == 2 || i == 5) ?  '2px solid black' : '0.5px solid black' "
-                [style.border-right]=" (j == 2 || j == 5) ?  '2px solid black' : '0.5px solid black' "
-                [ngClass]="(selectedI == i && selectedJ == j) ? 'selected' : '' "> 
-                {{stringBoard[i][j]}}
+<div class="page-wrapper">
+
+    <div class="grid-wrapper">
+        <h2>Use your keyboard on PC</h2>
+        <div class="full-grid">
+            <div class="grid-row" *ngFor="let i of numRange">
+                <div class="grid-cell" 
+                    (click)="onClick(i, j);" 
+                    *ngFor="let j of numRange"
+                    [style.border-bottom]=" (i == 2 || i == 5) ?  '2px solid black' : '0.5px solid black' "
+                    [style.border-right]=" (j == 2 || j == 5) ?  '2px solid black' : '0.5px solid black' "
+                    [ngClass]="(selectedI == i && selectedJ == j) ? 'selected' : '' "> 
+                    {{stringBoard[i][j]}}
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="horizontal-line"></div>
+    <div class="horizontal-line"></div>
 
-<div class="button-group">
-    <button (click)="onClear()">Clear board</button>
-    <button (click)="onSolve()">Solve board</button>
-    <button (click)="onCheck()">Check board</button>
+    <div class="num-select-wrapper">
+        <h2>Use these keys on mobile</h2>
+        <div class="num-select">
+            <div class="num-cell" 
+                (click)="onSelect(i)" 
+                *ngFor="let i of [1,2,3,4,5,6,7,8,9]"> 
+                    {{i}}
+            </div>
+        </div>
+        <div class="del-cell" (click)="onRemove()">
+            Delete
+        </div>
+    </div>
+
+
+
+    <div class="horizontal-line"></div>
+
+    <div class="button-group">
+        <button (click)="onClear()">Clear board</button>
+        <button (click)="onSolve()">Solve board</button>
+        <!-- <button (click)="onCheck()">Check board</button> -->
+    </div>
+
 </div>

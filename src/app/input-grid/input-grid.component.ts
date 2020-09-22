@@ -141,6 +141,22 @@ export class InputGridComponent implements OnInit {
         this.selectedJ = j;
     }
 
+    onSelect(num: number){
+        if(this.selectedI >= 0 && this.selectedI < 9 && this.selectedJ >= 0 && this.selectedJ < 9){
+            if(num > 0 && num <= 9){
+                this.dataBoard[this.selectedI][this.selectedJ] = num;
+            }
+        }
+        this.dataGridToStringGrid();
+    }
+
+    onRemove(){
+        if(this.selectedI >= 0 && this.selectedI < 9 && this.selectedJ >= 0 && this.selectedJ < 9){
+            this.dataBoard[this.selectedI][this.selectedJ] = 0;
+        }
+        this.dataGridToStringGrid();
+    }
+
     dataGridToStringGrid(): void {
         for (let i of this.numRange) {
             for (let j of this.numRange) {
@@ -175,7 +191,6 @@ export class InputGridComponent implements OnInit {
             this.dataGridToStringGrid();
             alert("SUCCESS");
         }
-
     }
 
     square_coordinates = [
