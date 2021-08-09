@@ -1,7 +1,16 @@
 <div class="page-wrapper">
 
+    <div class="button-group">
+        <button (click)="onClear()">Clear board</button>
+        <button (click)="onGenerate()">Generate</button>
+        <button (click)="onCheck()">Check board</button>
+        <button (click)="onSolve()">Solve board</button>
+    </div>
+
+    <div class="horizontal-line"></div>
+
     <div class="grid-wrapper">
-        <h2 style="text-align: center;">Type in your puzzle here<br>Or solve the puzzle already there</h2>
+        <h2 style="text-align: center;">Type in your puzzle here<br>Or solve the generated puzzle</h2>
         <!-- <h2>Use your keyboard on PC</h2> -->
         <div class="full-grid">
             <div class="grid-row" *ngFor="let i of numRange">
@@ -35,13 +44,13 @@
 
 
 
-    <div class="horizontal-line"></div>
+    <!-- <div class="horizontal-line"></div> -->
 
-    <div class="button-group">
+    <!-- <div class="button-group">
         <button (click)="onClear()">Clear board</button>
         <button (click)="onGenerate()">Generate</button>
         <button (click)="onCheck()">Check board</button>
         <button (click)="onSolve()">Solve board</button>
-    </div>
+    </div> -->
 
 </div>
