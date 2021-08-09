@@ -1,7 +1,8 @@
 <div class="page-wrapper">
 
     <div class="grid-wrapper">
-        <h2>Use your keyboard on PC</h2>
+        <h2 style="text-align: center;">Type in your puzzle here<br>Or solve the puzzle already there</h2>
+        <!-- <h2>Use your keyboard on PC</h2> -->
         <div class="full-grid">
             <div class="grid-row" *ngFor="let i of numRange">
                 <div class="grid-cell" 
@@ -38,8 +39,9 @@
 
     <div class="button-group">
         <button (click)="onClear()">Clear board</button>
-        <button (click)="onSolve()">Solve board</button>
+        <button (click)="onGenerate()">Generate</button>
         <button (click)="onCheck()">Check board</button>
+        <button (click)="onSolve()">Solve board</button>
     </div>
 
 </div>

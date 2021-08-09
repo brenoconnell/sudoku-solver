@@ -15,7 +15,9 @@ export class InputGridComponent implements OnInit {
     selectedI: number;
     selectedJ: number;
 
-    selectedNum: number
+    selectedNum: number;
+
+    greetingMessage = "Type in your puzzle here\nOr solve the puzzle already there"
 
     veryeasyGameArr = [
         [2, 0, 3, 0, 0, 8, 6, 0, 7],
@@ -77,11 +79,23 @@ export class InputGridComponent implements OnInit {
         [0, 0, 0, 6, 8, 0, 0, 9, 0]
     ];
 
+    emptyBoard = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+
     constructor() { }
 
     ngOnInit(): void {
         this.stringBoard = this.createBlankBoard('');
-        this.dataBoard = cloneDeep(this.fromTheBook);
+        this.dataBoard = this.seedRandom(this.emptyBoard, 18)
         this.dataGridToStringGrid();
         this.selectedI = -1;
         this.selectedJ = -1;
@@ -141,7 +155,7 @@ export class InputGridComponent implements OnInit {
         this.selectedJ = j;
     }
 
-    onSelect(num: number){
+    onSelect(num: number): void {
         if(this.selectedI >= 0 && this.selectedI < 9 && this.selectedJ >= 0 && this.selectedJ < 9){
             if(num > 0 && num <= 9){
                 this.dataBoard[this.selectedI][this.selectedJ] = num;
@@ -150,7 +164,7 @@ export class InputGridComponent implements OnInit {
         this.dataGridToStringGrid();
     }
 
-    onRemove(){
+    onRemove(): void {
         if(this.selectedI >= 0 && this.selectedI < 9 && this.selectedJ >= 0 && this.selectedJ < 9){
             this.dataBoard[this.selectedI][this.selectedJ] = 0;
         }
@@ -189,29 +203,28 @@ export class InputGridComponent implements OnInit {
         }
         else {
             this.dataGridToStringGrid();
-            alert("SUCCESS");
+            // alert("SUCCESS");
         }
     }
 
     onCheck(): void {
         
         let msg = "";
-        this.is_possible(this.dataBoard) ? msg +="POSSIBLE " : msg += "IMPOSSIBLE ";
-        this.is_legal(this.dataBoard) ? msg += "LEGAL" : msg += "ILLEGAL";
+        // this.isPossible(this.dataBoard) ? msg +="POSSIBLE " : msg += "IMPOSSIBLE ";
+        // this.isLegal(this.dataBoard) ? msg += "LEGAL" : msg += "ILLEGAL";
+        (this.isPossible(this.dataBoard) && this.isLegal(this.dataBoard)) ? msg +="POSSIBLE " : msg += "IMPOSSIBLE ";
         alert(msg);
     }
 
-    onGenerate(): void {
-        for (let i of this.numRange) {
-            for (let j of this.numRange) {
-                this.dataBoard[i][j] = 0;
-            }
-        }
-        this.dataBoard = this.seed_random(this.dataBoard, 20);
+    onGenerate(): void{
+        this.stringBoard = this.createBlankBoard('');
+        this.dataBoard = this.seedRandom(this.emptyBoard, 18)
         this.dataGridToStringGrid();
+        this.selectedI = -1;
+        this.selectedJ = -1;
     }
 
-    square_coordinates = [
+    squareCoordinates = [
         [1, 1, 1, 2, 2, 2, 3, 3, 3],
         [1, 1, 1, 2, 2, 2, 3, 3, 3],
         [1, 1, 1, 2, 2, 2, 3, 3, 3],
@@ -223,11 +236,11 @@ export class InputGridComponent implements OnInit {
         [7, 7, 7, 8, 8, 8, 9, 9, 9]
     ]
 
-    get_row(board, row) {
+    getRow(board, row): any[] {
         return board[row];
     }
 
-    get_column(board, column) {
+    getColumn(board, column): any[] {
         let col = [];
         for (let row = 0; row < 9; row++) {
             col.push(board[row][column]);
@@ -235,11 +248,11 @@ export class InputGridComponent implements OnInit {
         return col;
     }
 
-    get_square(board, square) {
+    getSquare(board, square): any[] {
         let cells = [];
         for (let r = 0; r < 9; r++) {
             for (let c = 0; c < 9; c++) {
-                if (square == this.square_coordinates[r][c]) {
+                if (square == this.squareCoordinates[r][c]) {
                     cells.push(board[r][c]);
                 }
             }
@@ -247,8 +260,8 @@ export class InputGridComponent implements OnInit {
         return cells;
     }
 
-    complete_cell(board, r, c) {
-        let used = [...this.get_row(board, r), ...this.get_column(board, c), ...this.get_square(board, this.square_coordinates[r][c])]
+    completeCell(board, r, c): boolean {
+        let used = [...this.getRow(board, r), ...this.getColumn(board, c), ...this.getSquare(board, this.squareCoordinates[r][c])]
         let possibilities = []
         for (let p = 1; p <= 9; p++) {
             if (!used.includes(p)) {
@@ -264,12 +277,12 @@ export class InputGridComponent implements OnInit {
         }
     }
 
-    is_possible(orig_board) {
+    isPossible(orig_board): boolean {
         let board = JSON.parse(JSON.stringify(orig_board));
 
         for(let r = 0; r < 9; r++){
             for(let c = 0; c < 9; c++){
-                this.complete_cell(board, r, c);
+                this.completeCell(board, r, c);
                 if(board[r][c].length === 0){
                     return false;
                 }
@@ -278,7 +291,7 @@ export class InputGridComponent implements OnInit {
         return true;
     }
 
-    seed_random(orig_board, numSeededPositions){
+    seedRandom(orig_board, numSeededPositions): any[]{
         let board = JSON.parse(JSON.stringify(orig_board));
         let count = 0;
 
@@ -287,7 +300,7 @@ export class InputGridComponent implements OnInit {
             let randCol = Math.floor(Math.random() * 9);
             if(board[randRow][randCol] === 0){
                 board[randRow][randCol] = Math.floor(Math.random() * 9) + 1;
-                if(this.is_legal(board) && this.is_possible(board)){
+                if(this.isLegal(board) && this.isPossible(board)){
                     count++;
                 }
                 else{
@@ -298,11 +311,11 @@ export class InputGridComponent implements OnInit {
         return board;
     }
 
-    is_legal(orig_board) {
+    isLegal(orig_board): boolean {
         let legal = true
         // Check all rows
         for (let r = 0; r < 9 && legal == true; r++) {
-            let row  = this.get_row(orig_board, r);
+            let row  = this.getRow(orig_board, r);
             let trimmedRow = row.filter(cell => cell !== 0);
             if (new Set(trimmedRow).size !== trimmedRow.length) {
                 legal = false;
@@ -310,7 +323,7 @@ export class InputGridComponent implements OnInit {
         }
         // Check all columns
         for (let c = 0; c < 9 && legal == true; c++) {
-            let col  = this.get_column(orig_board, c);
+            let col  = this.getColumn(orig_board, c);
             let trimmedCol = col.filter(cell => cell !== 0);
             if (new Set(trimmedCol).size !== trimmedCol.length) {
                 legal = false;
@@ -318,7 +331,7 @@ export class InputGridComponent implements OnInit {
         }
         // Check all square sections
         for (let q = 1; q < 9 && legal == true; q++) {
-            let square  = this.get_square(orig_board, q);
+            let square  = this.getSquare(orig_board, q);
             let trimmedRow = square.filter(cell => cell !== 0);
             if (new Set(trimmedRow).size !== trimmedRow.length) {
                 legal = false;
@@ -327,7 +340,7 @@ export class InputGridComponent implements OnInit {
         return legal
     }
 
-    appears_once_only(board, possibilities, segment, r, c) {
+    appearsOnceOnly(board, possibilities, segment, r, c): boolean {
         let updated = false
         for (let i = 0; i < possibilities.length; i++) {
             let possibility = possibilities[i]
@@ -352,51 +365,51 @@ export class InputGridComponent implements OnInit {
         return updated
     }
 
-    compare(expected, actual) {
+    compare(expected, actual): boolean {
         let array1 = expected.slice()
         let array2 = actual.slice()
         return array1.length === array2.length && array1.sort().every(function (value, index) { return value === array2.sort()[index] });
     }
 
-    is_solved(board) {
+    isSolved(board): boolean {
         let expected = [1, 2, 3, 4, 5, 6, 7, 8, 9]
         let valid = true
         // Check all rows
         for (let r = 0; r < 9 && valid == true; r++) {
-            if (!this.compare(expected, this.get_row(board, r))) {
+            if (!this.compare(expected, this.getRow(board, r))) {
                 valid = false
             }
         }
         // Check all columns
         for (let c = 0; c < 9 && valid == true; c++) {
-            if (!this.compare(expected, this.get_column(board, c))) {
+            if (!this.compare(expected, this.getColumn(board, c))) {
                 valid = false
             }
         }
         // Check all square sections
         for (let q = 1; q < 9 && valid == true; q++) {
-            if (!this.compare(expected, this.get_square(board, q))) {
+            if (!this.compare(expected, this.getSquare(board, q))) {
                 valid = false
             }
         }
         return valid
     }
 
-    backtrack_based(orig_board) {
+    backtrackBased(orig_board): boolean {
 
         let board = JSON.parse(JSON.stringify(orig_board));
 
         for (let r = 0; r < 9; r++) {
             for (let c = 0; c < 9; c++) {
                 if (board[r][c] == 0) {
-                    this.complete_cell(board, r, c)
-                    if (this.is_solved(board)) return board;
+                    this.completeCell(board, r, c)
+                    if (this.isSolved(board)) return board;
                     let cell = board[r][c]
                     if (Array.isArray(cell)) {
                         for (let i = 0; i < cell.length; i++) {
                             let board_2 = JSON.parse(JSON.stringify(board));
                             board_2[r][c] = cell[i]
-                            let completed_board = this.backtrack_based(board_2)
+                            let completed_board = this.backtrackBased(board_2)
                             if (completed_board) {
                                 return completed_board;
                             }
@@ -409,7 +422,7 @@ export class InputGridComponent implements OnInit {
         return false;
     }
 
-    one_value_cell_constraint(board) {
+    oneValueCellConstraint(board): boolean {
 
         let updated = false
 
@@ -417,7 +430,7 @@ export class InputGridComponent implements OnInit {
         for (let r = 0; r < 9; r++) {
             for (let c = 0; c < 9; c++) {
                 if (board[r][c] == 0) {
-                    updated = this.complete_cell(board, r, c) || updated
+                    updated = this.completeCell(board, r, c) || updated
                 }
             }
         }
@@ -426,9 +439,9 @@ export class InputGridComponent implements OnInit {
             for (let c = 0; c < 9; c++) {
                 if (Array.isArray(board[r][c])) {
                     let possibilities = board[r][c]
-                    updated = this.appears_once_only(board, possibilities, this.get_row(board, r), r, c) ||
-                        this.appears_once_only(board, possibilities, this.get_column(board, c), r, c) ||
-                        this.appears_once_only(board, possibilities, this.get_square(board, this.square_coordinates[r][c]), r, c) || updated
+                    updated = this.appearsOnceOnly(board, possibilities, this.getRow(board, r), r, c) ||
+                        this.appearsOnceOnly(board, possibilities, this.getColumn(board, c), r, c) ||
+                        this.appearsOnceOnly(board, possibilities, this.getSquare(board, this.squareCoordinates[r][c]), r, c) || updated
                 }
             }
         }
@@ -444,18 +457,18 @@ export class InputGridComponent implements OnInit {
         return updated
     }
 
-    solve(board) {
+    solve(board): any[] {
 
         let updated = true, solved = false;
 
         while (updated && !solved) {
-            updated = this.one_value_cell_constraint(board);
-            solved = this.is_solved(board);
+            updated = this.oneValueCellConstraint(board);
+            solved = this.isSolved(board);
         }
 
         if (!solved) {
-            board = this.backtrack_based(board)
-            solved = this.is_solved(board);
+            board = this.backtrackBased(board)
+            solved = this.isSolved(board);
         }
 
         return board

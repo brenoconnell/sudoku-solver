@@ -1,0 +1,21 @@
+[debug] [2021-08-09T12:21:11.241Z] ----------------------------------------------------------------------
+[debug] [2021-08-09T12:21:11.243Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\breno\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js open
+[debug] [2021-08-09T12:21:11.244Z] CLI Version:   9.16.0
+[debug] [2021-08-09T12:21:11.244Z] Platform:      win32
+[debug] [2021-08-09T12:21:11.244Z] Node Version:  v14.15.0
+[debug] [2021-08-09T12:21:11.245Z] Time:          Mon Aug 09 2021 13:21:11 GMT+0100 (Irish Standard Time)
+[debug] [2021-08-09T12:21:11.245Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-08-09T12:21:11.293Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-08-09T12:21:11.293Z] > authorizing via signed-in user (brenoconnell6@gmail.com)
+[debug] [2021-08-09T12:21:11.294Z] [iam] checking project sudoku-solver-boc for permissions ["firebase.projects.get"]
+[debug] [2021-08-09T12:21:11.296Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/sudoku-solver-boc:testIamPermissions  
+ {"permissions":["firebase.projects.get"]}
+[debug] [2021-08-09T12:21:11.967Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 09 Aug 2021 12:21:13 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=592","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-08-09T12:21:11.969Z] > refreshing access token with scopes: []
+[debug] [2021-08-09T12:21:11.969Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-08-09T12:21:12.052Z] <<< HTTP RESPONSE 200 {"cache-control":"no-cache, no-store, max-age=0, must-revalidate","pragma":"no-cache","expires":"Mon, 01 Jan 1990 00:00:00 GMT","date":"Mon, 09 Aug 2021 12:21:13 GMT","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-08-09T12:21:12.083Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/sudoku-solver-boc [none]
+[debug] [2021-08-09T12:21:12.526Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/sudoku-solver-boc 200
+[debug] [2021-08-09T12:21:12.526Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/sudoku-solver-boc {"projectId":"sudoku-solver-boc","projectNumber":"289557119826","displayName":"sudoku-solver-boc","name":"projects/sudoku-solver-boc","resources":{"hostingSite":"sudoku-solver-boc","realtimeDatabaseInstance":"sudoku-solver-boc"},"state":"ACTIVE"}
